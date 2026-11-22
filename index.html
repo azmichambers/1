@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azmi Chambers — Legal Drafting, Title Due Diligence &amp; Documentation</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    // Configure custom design palette and typography tokens
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: '#FAF8F5',
+            surface: '#FFFFFF',
+            cream: '#F5F2EC',
+            charcoal: '#1C1917',
+            inkbody: '#3B3632',
+            muted: '#6B655E',
+            bronze: '#9A7B4F',
+            bronzedark: '#7D623C',
+            borderwarm: '#E5DFD5'
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif']
+          },
+          boxShadow: {
+            card: '0 10px 28px -14px rgba(28, 25, 23, 0.12)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Base styling and smooth view transitions */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #FAF8F5;
+      color: #1C1917;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-animate {
+      animation: fadeSlideUp 0.24s ease-out both;
+    }
+
+    .service-card:hover .arrow-glide {
+      transform: translateX(4px);
+    }
+
+    .arrow-glide {
+      transition: transform 0.2s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-parchment text-charcoal antialiased selection:bg-bronze/20 selection:text-charcoal">
+
+  <!-- STICKY HEADER -->
+  <header class="sticky top-0 z-40 bg-parchment/95 backdrop-blur-md border-b border-borderwarm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between gap-4">
+
+      <!-- Brand Lockup: Azmi Chambers above Bhiwandi, Maharashtra -->
+      <a href="#home" onclick="return navigateTo(event, 'home');"
+         class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-lg bg-charcoal text-parchment flex items-center justify-center font-serif text-xl font-semibold border border-bronze/40 group-hover:bg-bronze transition-colors">
+          AC
+        </div>
+        <div class="leading-tight">
+          <span id="header-brand-title" class="block font-serif text-xl sm:text-2xl font-semibold text-charcoal tracking-tight">
+            Azmi Chambers
+          </span>
+          <span id="header-brand-sub" class="block text-[10px] uppercase tracking-[0.2em] text-muted font-medium">
+            Bhiwandi, Maharashtra
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav aria-label="Main Navigation" class="hidden md:flex items-center gap-7">
+        <a id="nav-home" href="#home" onclick="return navigateTo(event, 'home');"
+           class="py-2 text-xs uppercase tracking-[0.16em] font-semibold border-b-2 border-bronze text-charcoal transition-colors">
+          Home
+        </a>
+
+        <!-- Services Dropdown -->
+        <div class="relative" id="services-menu-container">
+          <button type="button" id="services-menu-btn" aria-expanded="false" aria-controls="services-menu-panel"
+                  class="py-2 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] font-semibold border-b-2 border-transparent text-inkbody hover:text-charcoal transition-colors">
+            <span>Services</span>
+            <svg id="services-menu-chevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <div id="services-menu-panel"
+               class="hidden absolute right-0 mt-3 w-[440px] max-w-[90vw] bg-surface rounded-2xl border border-borderwarm shadow-xl p-3 z-50">
+            <div class="px-3 py-2 border-b border-borderwarm">
+              <span class="text-[11px] uppercase tracking-[0.18em] text-bronze font-semibold">Services</span>
+            </div>
+            <div id="desktop-dropdown-items" class="max-h-[420px] overflow-y-auto divide-y divide-borderwarm/60 mt-1">
+              <!-- Populated dynamically from SITE_CONTENT.services -->
+            </div>
+          </div>
+        </div>
+
+        <a id="nav-contact" href="#contact" onclick="return navigateTo(event, 'contact');"
+           class="py-2 text-xs uppercase tracking-[0.16em] font-semibold border-b-2 border-transparent text-inkbody hover:text-charcoal transition-colors">
+          Contact
+        </a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button type="button" id="mobile-menu-trigger" aria-expanded="false" aria-controls="mobile-nav-drawer"
+              class="md:hidden p-2.5 rounded-lg border border-borderwarm bg-surface text-charcoal hover:border-bronze transition-colors"
+              aria-label="Open or close navigation menu">
+        <svg id="mobile-hamburger-icon" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+        <svg id="mobile-close-icon" class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-nav-drawer" class="hidden md:hidden border-t border-borderwarm bg-surface">
+      <div class="px-4 py-5 space-y-4 max-h-[80vh] overflow-y-auto">
+        <div class="grid grid-cols-2 gap-2.5">
+          <a href="#home" onclick="return navigateMobile(event, 'home');"
+             class="px-4 py-3 rounded-lg bg-parchment border border-borderwarm text-xs uppercase tracking-[0.15em] font-semibold text-charcoal text-center">
+            Home
+          </a>
+          <a href="#contact" onclick="return navigateMobile(event, 'contact');"
+             class="px-4 py-3 rounded-lg bg-charcoal text-parchment text-xs uppercase tracking-[0.15em] font-semibold text-center">
+            Contact
+          </a>
+        </div>
+
+        <div>
+          <p class="px-1 text-[11px] uppercase tracking-[0.18em] text-bronze font-semibold mb-2">
+            Services
+          </p>
+          <div id="mobile-drawer-items" class="grid grid-cols-1 gap-1.5">
+            <!-- Populated dynamically from SITE_CONTENT.services -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- DYNAMIC VIEW CONTAINER (#home, #service-1..#service-12, #contact) -->
+  <main id="view-root" class="flex-1">
+    <!-- Rendered via JavaScript router -->
+  </main>
+
+  <!-- PERSISTENT FOOTER -->
+  <footer class="bg-charcoal text-parchment border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14">
+      <div class="pb-12 border-b border-white/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- Left Side: Azmi Chambers above Bhiwandi, Maharashtra + Practice Description -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-bronze text-white flex items-center justify-center font-serif text-xl font-semibold">
+              AC
+            </div>
+            <div>
+              <span id="footer-brand-name" class="block font-serif text-2xl font-semibold text-white">Azmi Chambers</span>
+              <span id="footer-brand-sub" class="block text-[10px] uppercase tracking-[0.2em] text-white/65">Bhiwandi, Maharashtra</span>
+            </div>
+          </div>
+          <p id="footer-description" class="text-sm text-white/75 leading-relaxed max-w-2xl">
+            <!-- Populated from SITE_CONTENT -->
+          </p>
+        </div>
+
+        <!-- Right Side: Address, Phone, Email -->
+        <div id="footer-contact-column" class="lg:col-span-5 text-sm text-white/80 space-y-2">
+          <!-- Populated from SITE_CONTENT -->
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/55">
+        <p>&copy; <span id="footer-year">2026</span> <span id="footer-copyright-name">Azmi Chambers</span>. All rights reserved.</p>
+        <p id="footer-area-note">Bhiwandi Nizampur Municipal Corporation (BNMC) &amp; Surrounding Areas</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       CENTRALIZED SITE CONTENT OBJECT (SITE_CONTENT)
+       Edit all firm details, home copy, contact details, and all 12 services here.
+       ========================================================================= -->
+  <script>
+    const SITE_CONTENT = {
+      firm: {
+        name: 'Azmi Chambers',
+        location: 'Bhiwandi, Maharashtra',
+        areaCaption: 'Bhiwandi Nizampur Municipal Corporation (BNMC) & Surrounding Areas',
+        description:
+          'Legal drafting, 30-year land title search reports, title due diligence, MahaRERA documentation, project documentation suites, stamp duty cost sheets, and marriage registration in Bhiwandi, Maharashtra.',
+        addressLines: [
+          'House Number 95, Near Hanuman Mandir,',
+          'Shastri Nagar, Kalyan Road, Bhiwandi,',
+          'District Thane, Maharashtra 421302'
+        ],
+        phone: '7972002617',
+        phoneTelHref: '+917972002617',
+        email: 'desk@azmichambers.in',
+        whatsappUrl: 'https://wa.me/917972002617'
+      },
+
+      home: {
+        headline: 'Careful Drafting, Clear Title Checks & Practical Documentation.',
+        subheadline:
+          'Azmi Chambers prepares agreements, deeds, 30-year title search reports, pre-transaction due diligence reports, MahaRERA paperwork, project documentation suites, stamp duty cost sheets, and marriage registration records.',
+        primaryButtonLabel: 'Explore Services',
+        secondaryButtonLabel: 'Contact',
+        servicesSectionTitle: 'Services at Azmi Chambers'
+      },
+
+      contact: {
+        heading: 'Contact Us',
+        formTitle: 'Send a Message',
+        submitButtonText: 'Send'
+      },
+
+      services: [
+        {
+          id: 1,
+          slug: 'service-1',
+          name: 'Commercial & Industrial Leave & License (Up to 60 Months)',
+          summary: 'Clear leave and license agreements up to 60 months for godowns, warehouses, shops, and commercial premises.',
+          overview:
+            'Designed for warehouses, logistics units, commercial offices, and retail spaces in and around Bhiwandi. Each agreement sets out license fees, lock-in terms, fit-out periods, rent increases, security deposit refunds, and permitted commercial or industrial use.',
+          deliverables: [
+            'Leave & License Agreement drafted under Section 55 of the Maharashtra Rent Control Act, 1999',
+            'Clear terms for lock-in period, fit-out days, and periodic fee escalation',
+            'Security deposit refund rules, utility charges, and premise handover terms',
+            'Provisions covering permitted commercial or industrial use and renewal options'
+          ],
+          documents: [
+            'Latest 7/12 extract, Property Card, or ownership/possession record of the licensor',
+            'PAN, Aadhaar, and entity details of licensor and licensee',
+            'Agreed license fee, security deposit, lock-in period, and start date',
+            'Premises area details and layout or location description'
+          ],
+          statutoryNote:
+            'Prepared with reference to Section 55 of the Maharashtra Rent Control Act, 1999 and the Registration Act, 1908.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11l8-6 8 6v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8z"/><path d="M10 20v-6h4v6"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Commercial and Industrial Leave and License illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><path d="M54 128V82l52-34 52 34v46H54z" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M95 128v-24h22v24" stroke="#9A7B4F" stroke-width="2"/><rect x="184" y="54" width="88" height="11" rx="4" fill="#9A7B4F" fill-opacity="0.22"/><rect x="184" y="76" width="72" height="8" rx="4" fill="#E5DFD5"/><rect x="184" y="92" width="80" height="8" rx="4" fill="#E5DFD5"/><circle cx="248" cy="124" r="14" fill="#1C1917"/><path d="M243 124l3.5 3.5 6.5-7" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+        },
+        {
+          id: 2,
+          slug: 'service-2',
+          name: 'Long-Term Commercial & Industrial Lease Deed (Exceeding 5 Years)',
+          summary: 'Lease deeds exceeding 5 years for industrial sheds, logistics parks, and long-term commercial commitments.',
+          overview:
+            'For multi-year commitments involving industrial sheds, warehouses, or commercial properties over five years, a structured Lease Deed clarifies long-term responsibilities. We draft terms covering structural repairs, permitted operations, renewal choices, sub-leasing conditions, and exit provisions.',
+          deliverables: [
+            'Long-Term Lease Deed tailored for tenures exceeding five years',
+            'Allocation of structural maintenance, insurance, and outgoings',
+            'Renewal options, rent revision mechanics, and termination/handover terms',
+            'Stamp duty valuation notes for multi-year commercial and industrial leases'
+          ],
+          documents: [
+            'Property ownership records (7/12 extract, Property Card, or title deeds) and NA/permission copies',
+            'Incorporation or partnership details and authorized signatory proof',
+            'Proposed lease tenure, renewal terms, rent/premium, and deposit structure',
+            'Industrial shed, godown, or plot measurement and boundary details'
+          ],
+          statutoryNote:
+            'Drafted in accordance with the Transfer of Property Act, 1882, the Registration Act, 1908, and the Maharashtra Stamp Act.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20V9l6 3V9l6 3V6h6v14H3z"/><path d="M7 16h2m4 0h2m4 0h1"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Long-Term Commercial and Industrial Lease Deed illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><path d="M44 132V86l36 18V86l36 18V70h50v62H44z" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><rect x="188" y="50" width="86" height="82" rx="6" fill="#FAF8F5" stroke="#9A7B4F" stroke-width="1.5"/><path d="M200 72h62M200 90h52M200 108h58" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/></svg>`
+        },
+        {
+          id: 3,
+          slug: 'service-3',
+          name: 'Agreement for Sale (General & Commercial)',
+          summary: 'Pre-sale agreements defining payment schedules, possession dates, title assurances, and boundaries.',
+          overview:
+            'An Agreement for Sale sets out the terms agreed between buyer and seller ahead of final conveyance. We draft clear agreements for commercial premises, industrial units, and land parcels covering payment milestones, possession timelines, title assurances, property boundaries, and breach remedies.',
+          deliverables: [
+            'Agreement for Sale drafted for commercial, industrial, or general property deals',
+            'Payment milestones, advance terms, and possession timeline clauses',
+            'Title assurances, outgoings clarity, and four-sided boundary schedule',
+            'Clear remedies and notice terms for default or delay'
+          ],
+          documents: [
+            'Copies of seller’s title deeds, mutation entries, and 7/12 extract or Property Card',
+            'PAN, Aadhaar, and authority documents (including Power of Attorney if applicable)',
+            'Agreed consideration, payment schedule, and proposed possession date',
+            'Survey/plot/unit details and four-sided boundary particulars'
+          ],
+          statutoryNote:
+            'Prepared with attention to stamp duty and registration rules under the Maharashtra Stamp Act and Registration Act, 1908.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agreement for Sale illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="52" y="34" width="122" height="112" rx="6" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M72 62h82M72 84h82M72 106h56" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/><path d="M92 126h50" stroke="#9A7B4F" stroke-width="2.5" stroke-linecap="round"/><circle cx="232" cy="90" r="26" fill="#9A7B4F" fill-opacity="0.16" stroke="#9A7B4F" stroke-width="2"/><path d="M222 90l7 7 13-14" stroke="#1C1917" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+        },
+        {
+          id: 4,
+          slug: 'service-4',
+          name: 'Sale Deed (Conveyance Instrument)',
+          summary: 'Conveyance deeds transferring ownership with complete property history, boundaries, and registration notes.',
+          overview:
+            'A Sale Deed is the primary instrument transferring ownership of immovable property from seller to buyer. We prepare structured Sale Deeds containing complete ownership history, consideration receipt, possession delivery, title covenants, four-sided boundaries, and a pre-registration checklist.',
+          deliverables: [
+            'Conveyance Sale Deed drafted for registration',
+            'Recitals tracing ownership history, payment settlement, and possession delivery',
+            'Property schedule with survey/plot numbers and four-sided boundaries',
+            'Checklist of documents and parties needed for registration'
+          ],
+          documents: [
+            'Prior registered deeds, family/succession records, and earlier agreements (if any)',
+            'Latest 7/12 extract, 8A extract, or Property Card and mutation entries',
+            'Applicable tax, society, or municipal dues clearance copies',
+            'Identity details of seller(s), buyer(s), and witnesses'
+          ],
+          statutoryNote:
+            'Governed by Section 54 of the Transfer of Property Act, 1882 and the Registration Act, 1908.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M8.5 12L7 20l5-2.5L17 20l-1.5-8"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sale Deed Conveyance Instrument illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="46" y="36" width="134" height="108" rx="6" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M66 62h94M66 82h82M66 102h66" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/><circle cx="236" cy="78" r="20" fill="#9A7B4F" stroke="#1C1917" stroke-width="1.5"/><path d="M226 96l-5 32 15-7.5 15 7.5-5-32" fill="#1C1917"/></svg>`
+        },
+        {
+          id: 5,
+          slug: 'service-5',
+          name: 'MahaRERA-Compliant Agreement for Sale',
+          summary: 'Agreements for sale structured around MahaRERA model terms, carpet area details, and timelines.',
+          overview:
+            'Transactions involving MahaRERA-registered projects follow statutory model agreement provisions. We draft and review Agreements for Sale for developers and allottees so carpet area specifications, stage-wise payment terms, possession dates, defect liability, and cancellation provisions stay aligned.',
+          deliverables: [
+            'Agreement for Sale aligned with MahaRERA model agreement requirements',
+            'Carpet area, enclosed balcony/deck details, and approved project schedule alignment',
+            'Stage-wise payment schedule, possession date, and defect liability provisions',
+            'Consistent buyer and promoter clauses throughout the agreement'
+          ],
+          documents: [
+            'MahaRERA registration particulars and sanctioned plan or layout reference',
+            'Allotment details, carpet area figures, and payment milestone schedule',
+            'Underlying land title or development rights summary',
+            'Promoter and allottee identity and address details'
+          ],
+          statutoryNote:
+            'Prepared with reference to the Real Estate (Regulation and Development) Act, 2016 and the Maharashtra Real Estate (Regulation and Development) Rules, 2017.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MahaRERA-Compliant Agreement for Sale illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><path d="M90 38l46 14v32c0 28-19 47-46 56-27-9-46-28-46-56V52l46-14z" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M73 86l11 11 23-23" stroke="#9A7B4F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="164" y="52" width="102" height="10" rx="4" fill="#1C1917"/><rect x="164" y="74" width="86" height="8" rx="4" fill="#E5DFD5"/><rect x="164" y="92" width="94" height="8" rx="4" fill="#E5DFD5"/><rect x="164" y="110" width="76" height="8" rx="4" fill="#E5DFD5"/></svg>`
+        },
+        {
+          id: 6,
+          slug: 'service-6',
+          name: 'MahaRERA-Compliant Sale Deed',
+          summary: 'Final conveyance deeds for MahaRERA projects linking earlier sale agreements and handover.',
+          overview:
+            'When a MahaRERA project unit or commercial premises reaches final conveyance, the Sale Deed should cleanly connect the prior registered Agreement for Sale, final payment settlement, common area provisions, and possession handover. We draft complete final conveyance deeds.',
+          deliverables: [
+            'Final Sale Deed linking the prior registered Agreement for Sale and final consideration',
+            'Premises description, carpet area, and common area references',
+            'Possession handover confirmation and maintenance arrangements',
+            'Pre-execution and registration checklist'
+          ],
+          documents: [
+            'Registered Agreement for Sale and payment receipts or statement of account',
+            'Project completion/occupancy status details and registration particulars',
+            'Parent land title and building approval references',
+            'Purchaser and seller identity and authorization documents'
+          ],
+          statutoryNote:
+            'Prepared alongside MahaRERA project disclosures, the Transfer of Property Act, 1882, and the Maharashtra Stamp Act.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12.5l2 2 5-5"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MahaRERA-Compliant Sale Deed illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="46" y="38" width="128" height="104" rx="6" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M66 64h88M66 86h76M66 108h58" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/><rect x="198" y="56" width="72" height="72" rx="12" fill="#9A7B4F" fill-opacity="0.16" stroke="#9A7B4F" stroke-width="2"/><path d="M216 92l10 10 22-22" stroke="#1C1917" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+        },
+        {
+          id: 7,
+          slug: 'service-7',
+          name: 'Joint Development Agreement (JDA)',
+          summary: 'Development agreements between landowners and developers covering shares, timelines, and safeguards.',
+          overview:
+            'A Joint Development Agreement sets out how a landowner and a developer collaborate to develop land. We draft clear JDAs covering landowner and developer shares (area, built-up space, or revenue), project timelines, construction obligations, power of attorney scope, delays, and dispute resolution.',
+          deliverables: [
+            'Joint Development Agreement drafted for landowner(s) and developer',
+            'Area or revenue sharing structure, allocation schedules, and timelines',
+            'Construction responsibilities, approvals, and Power of Attorney scope',
+            'Delay protections, exit terms, and dispute resolution clauses'
+          ],
+          documents: [
+            'Land title records, 7/12 extracts or Property Cards, and co-owner details',
+            'Details of any existing charges, mortgages, leases, or encumbrances',
+            'Agreed sharing formula, project schedule, and commercial terms',
+            'Identity and entity documents of landowners and developer'
+          ],
+          statutoryNote:
+            'Joint development agreements involving construction, sharing of area or revenue, and development rights require attention to stamp duty, registration, and building or RERA rules.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8.5" cy="9" r="3"/><circle cx="15.5" cy="9" r="3"/><path d="M4.5 19c0-2.5 1.8-4 4-4s4 1.5 4 4m1-4c2.2 0 4 1.5 4 4"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Joint Development Agreement illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><circle cx="98" cy="78" r="22" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><circle cx="150" cy="78" r="22" fill="#9A7B4F" fill-opacity="0.2" stroke="#9A7B4F" stroke-width="2"/><path d="M66 134c0-14 14-24 32-24s32 10 32 24" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/><path d="M118 134c0-14 14-24 32-24s32 10 32 24" stroke="#9A7B4F" stroke-width="2" stroke-linecap="round"/><rect x="204" y="54" width="66" height="80" rx="6" fill="#FAF8F5" stroke="#E5DFD5"/></svg>`
+        },
+        {
+          id: 8,
+          slug: 'service-8',
+          name: 'Project Realization Documentation Suite',
+          summary: 'Structured legal paperwork from early MoUs and land pooling to development and sale documents.',
+          overview:
+            'Developing a commercial, warehousing, or real estate project involves multiple sequential documents. We organize the documentation flow—from initial MoUs and land pooling papers to development agreements and standard buyer or occupant templates—so every stage aligns cleanly.',
+          deliverables: [
+            'Structured documentation plan covering project stages from start to execution',
+            'Initial MoU / understanding and land pooling document structure',
+            'Consistency across development agreements and standard sale or lease forms',
+            'Stage-wise document checklist for project readiness'
+          ],
+          documents: [
+            'Project site details, land parcels, and partner or stakeholder overview',
+            'Existing land papers, preliminary agreements, or commercial term sheets',
+            'Intended project type (warehousing, industrial, commercial, or mixed-use)',
+            'Target milestones and planned execution timeline'
+          ],
+          statutoryNote:
+            'Aligned with applicable land, registration, municipal, and MahaRERA provisions relevant to each project phase.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="12" width="5" height="8" rx="1"/><rect x="10.5" y="8" width="5" height="12" rx="1"/><rect x="17" y="4" width="3" height="16" rx="1"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Project Realization Documentation Suite illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="48" y="98" width="44" height="44" rx="6" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><rect x="108" y="74" width="44" height="68" rx="6" fill="#9A7B4F" fill-opacity="0.2" stroke="#9A7B4F" stroke-width="2"/><rect x="168" y="48" width="44" height="94" rx="6" fill="#1C1917"/><path d="M228 54h40M228 76h34M228 98h40M228 120h28" stroke="#9A7B4F" stroke-width="2.5" stroke-linecap="round"/></svg>`
+        },
+        {
+          id: 9,
+          slug: 'service-9',
+          name: 'Standard 30-Year Land Title Search Report',
+          summary: 'Thirty-year ownership history review across deeds, 7/12 extracts, mutations, and encumbrance records.',
+          overview:
+            'Reviewing roughly 30 years of ownership records helps identify gaps, unrecorded transfers, or past charges before committing to a property. We examine prior registered deeds, 7/12 extracts (Satbara Utara), 8A extracts, Property Cards, mutation entries (Ferfar), and encumbrance records in a written report.',
+          deliverables: [
+            'Written 30-Year Land Title Search Report tracing ownership history',
+            'Review of prior deeds, 7/12 extracts, 8A extracts, Property Cards, and mutations',
+            'Check of recorded encumbrances, charges, or registration index entries',
+            'Clear summary of ownership continuity and record observations'
+          ],
+          documents: [
+            'Survey number, Gut number, CTS number, or Property Card particulars',
+            'Village or ward name and taluka or municipal particulars',
+            'Available copies of prior deeds, 7/12 extracts, or mutation records',
+            'Purpose of search (purchase, lease, joint development, or verification)'
+          ],
+          statutoryNote:
+            'Based on revenue records, registration index records, and documents available for review; a title search report summarizes record findings and is not a judicial determination.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M16 16l4.5 4.5"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Standard 30-Year Land Title Search Report illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="46" y="38" width="138" height="104" rx="6" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M66 64h98M66 86h86M66 108h74M66 128h56" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/><circle cx="226" cy="92" r="23" fill="#FFFFFF" stroke="#9A7B4F" stroke-width="2.5"/><path d="M243 109l17 17" stroke="#1C1917" stroke-width="3" stroke-linecap="round"/></svg>`
+        },
+        {
+          id: 10,
+          slug: 'service-10',
+          name: 'Comprehensive Title Due Diligence & Pre-Transaction Report',
+          summary: 'Thorough pre-transaction check of title records, NA orders, BNMC plans, tenure status, and clearance steps.',
+          overview:
+            'Larger land acquisitions, warehouse plots, and joint development parcels benefit from a broader check beyond basic ownership history. We review title records together with Non-Agricultural (NA) orders, BNMC layout or building approvals, tenure status, and record gaps, outlining practical steps to address issues prior to closing.',
+          deliverables: [
+            'Pre-Transaction Due Diligence Report across available property records',
+            'Review of NA conversion orders, BNMC plan/sanction records, and tenure notes',
+            'Identification of missing links, pending mutations, or compliance flags',
+            'Actionable list of steps to clear record gaps before signing or payment'
+          ],
+          documents: [
+            'All available title deeds, family/succession documents, and revenue extracts',
+            'NA conversion orders, sanctioned plans, or municipal/industrial permissions',
+            'Search/encumbrance papers, tax receipts, and existing draft agreements',
+            'Proposed deal structure or draft terms (if available)'
+          ],
+          statutoryNote:
+            'Covers Maharashtra land revenue, NA permission, municipal or planning records, and registration history applicable to the property.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comprehensive Title Due Diligence and Pre-Transaction Report illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="44" y="34" width="232" height="112" rx="8" fill="#FAF8F5" stroke="#1C1917" stroke-width="2"/><path d="M68 64l6 6 12-12" stroke="#9A7B4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="98" y="60" width="148" height="8" rx="4" fill="#1C1917"/><path d="M68 92l6 6 12-12" stroke="#9A7B4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="98" y="88" width="126" height="8" rx="4" fill="#1C1917"/><circle cx="72" cy="120" r="5" fill="#9A7B4F"/><rect x="98" y="116" width="152" height="8" rx="4" fill="#E5DFD5"/></svg>`
+        },
+        {
+          id: 11,
+          slug: 'service-11',
+          name: 'Stamp Duty & Registration Cost Sheet',
+          summary: 'Clear comparison of deal value and Ready Reckoner rates before paying stamp duty and registration fees.',
+          overview:
+            'Estimating stamp duty and registration charges ahead of time helps parties plan funds accurately before execution and registration. We prepare a clear cost sheet comparing your agreed consideration or terms against Ready Reckoner rates under Maharashtra rules.',
+          deliverables: [
+            'Comparison of agreed consideration/terms against Ready Reckoner valuation',
+            'Estimated stamp duty and registration fee calculation for the document type',
+            'Notes on applicable local rules, caps, or concessions where relevant',
+            'Clear breakdown of expected statutory outgoings prior to payment'
+          ],
+          documents: [
+            'Document type (Sale Deed, Agreement for Sale, Lease, Leave & License, or JDA)',
+            'Property location, area, and agreed price, rent, or deposit amounts',
+            'Ready Reckoner zone or rate information (if available) and party details',
+            'Target date of execution or registration'
+          ],
+          statutoryNote:
+            'Prepared under the Maharashtra Stamp Act and Registration Act based on applicable government valuations and rules.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2m4 0h2M8 15h2m4 0h2"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stamp Duty and Registration Cost Sheet illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><rect x="54" y="32" width="84" height="116" rx="8" fill="#1C1917"/><rect x="66" y="46" width="60" height="20" rx="4" fill="#9A7B4F"/><circle cx="74" cy="86" r="4.5" fill="#FFFFFF"/><circle cx="96" cy="86" r="4.5" fill="#FFFFFF"/><circle cx="118" cy="86" r="4.5" fill="#FFFFFF"/><circle cx="74" cy="108" r="4.5" fill="#FFFFFF"/><circle cx="96" cy="108" r="4.5" fill="#FFFFFF"/><circle cx="118" cy="108" r="4.5" fill="#FFFFFF"/><rect x="162" y="46" width="104" height="10" rx="4" fill="#1C1917"/><rect x="162" y="68" width="84" height="8" rx="4" fill="#E5DFD5"/><rect x="162" y="88" width="92" height="8" rx="4" fill="#E5DFD5"/><rect x="162" y="108" width="74" height="8" rx="4" fill="#9A7B4F"/></svg>`
+        },
+        {
+          id: 12,
+          slug: 'service-12',
+          name: 'Marriage Registration & Statutory Documentation',
+          summary: 'Guided preparation of forms, declarations, and documents for marriage registration in Maharashtra.',
+          overview:
+            'Official marriage registration certificates are often needed for passports, visas, banking, and family records. We assist couples and families with checking identity, age, and ceremony records, drafting required declarations and affidavits, and organizing paperwork for registration.',
+          deliverables: [
+            'Review of identity, age, residence, and ceremony records for both spouses',
+            'Drafting of required declarations, affidavits, and application forms',
+            'Checklist of supporting papers and witness details',
+            'Clear step-by-step guidance for registration submission'
+          ],
+          documents: [
+            'Age proof and identity/address proof of both partners (e.g., birth/school certificate, Aadhaar, passport)',
+            'Marriage invitation card, ceremony photographs, or marriage record (as applicable)',
+            'Identity and address details of witnesses required for registration',
+            'Name-change or prior-status records (if applicable)'
+          ],
+          statutoryNote:
+            'Prepared in accordance with applicable marriage registration laws and procedures in Maharashtra.',
+          icon: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9.5" cy="12" r="4.5"/><circle cx="14.5" cy="12" r="4.5"/></svg>`,
+          illustration: `<svg viewBox="0 0 320 180" class="w-full h-44 rounded-xl bg-cream border border-borderwarm p-4" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Marriage Registration and Statutory Documentation illustration"><rect x="18" y="18" width="284" height="144" rx="10" fill="#FFFFFF" stroke="#E5DFD5"/><circle cx="106" cy="90" r="32" stroke="#1C1917" stroke-width="3"/><circle cx="148" cy="90" r="32" stroke="#9A7B4F" stroke-width="3"/><rect x="202" y="54" width="68" height="72" rx="6" fill="#FAF8F5" stroke="#E5DFD5"/><path d="M214 74h44M214 90h34M214 106h38" stroke="#1C1917" stroke-width="2" stroke-linecap="round"/></svg>`
+        }
+      ]
+    };
+
+    // Tracks selected service when navigating from a service page to #contact
+    let preselectedServiceId = null;
+
+    // =========================================================================
+    // HEADER & FOOTER HYDRATION
+    // =========================================================================
+    function setDropdownState(isOpen) {
+      const panel = document.getElementById('services-menu-panel');
+      const btn = document.getElementById('services-menu-btn');
+      const chevron = document.getElementById('services-menu-chevron');
+      if (!panel || !btn || !chevron) return;
+
+      panel.classList.toggle('hidden', !isOpen);
+      btn.setAttribute('aria-expanded', String(isOpen));
+      chevron.classList.toggle('rotate-180', isOpen);
+    }
+
+    function setMobileDrawerState(isOpen) {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      const btn = document.getElementById('mobile-menu-trigger');
+      const openIcon = document.getElementById('mobile-hamburger-icon');
+      const closeIcon = document.getElementById('mobile-close-icon');
+      if (!drawer || !btn || !openIcon || !closeIcon) return;
+
+      drawer.classList.toggle('hidden', !isOpen);
+      btn.setAttribute('aria-expanded', String(isOpen));
+      openIcon.classList.toggle('hidden', isOpen);
+      closeIcon.classList.toggle('hidden', !isOpen);
+    }
+
+    function navigateTo(event, route, scrollTargetId = null) {
+      if (event) event.preventDefault();
+      setDropdownState(false);
+      setMobileDrawerState(false);
+      showRoute(route, scrollTargetId);
+      return false;
+    }
+
+    function navigateMobile(event, route) {
+      if (event) event.preventDefault();
+      setMobileDrawerState(false);
+      showRoute(route);
+      return false;
+    }
+
+    function populateHeaderAndFooter() {
+      const f = SITE_CONTENT.firm;
+
+      const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      };
+
+      setText('header-brand-title', f.name);
+      setText('header-brand-sub', f.location);
+      setText('footer-brand-name', f.name);
+      setText('footer-brand-sub', f.location);
+      setText('footer-description', f.description);
+      setText('footer-copyright-name', f.name);
+      setText('footer-area-note', f.areaCaption);
+      setText('footer-year', String(new Date().getFullYear()));
+
+      const footerContactEl = document.getElementById('footer-contact-column');
+      if (footerContactEl) {
+        footerContactEl.innerHTML = `
+          <p>${f.addressLines.join('<br />')}</p>
+          <p><a href="tel:${f.phoneTelHref}" class="hover:text-white transition-colors">${f.phone}</a></p>
+          <p><a href="mailto:${f.email}" class="hover:text-white transition-colors break-all">${f.email}</a></p>
+        `;
+      }
+
+      const desktopItemsEl = document.getElementById('desktop-dropdown-items');
+      if (desktopItemsEl) {
+        desktopItemsEl.innerHTML = SITE_CONTENT.services.map((srv) => `
+          <a href="#${srv.slug}" onclick="return navigateTo(event, '${srv.slug}');"
+             class="block px-3 py-2.5 rounded-lg hover:bg-parchment transition-colors group">
+            <span class="block text-xs font-semibold text-charcoal group-hover:text-bronze transition-colors">${srv.name}</span>
+            <span class="block text-[11px] text-muted mt-0.5 line-clamp-1">${srv.summary}</span>
+          </a>
+        `).join('');
+      }
+
+      const mobileItemsEl = document.getElementById('mobile-drawer-items');
+      if (mobileItemsEl) {
+        mobileItemsEl.innerHTML = SITE_CONTENT.services.map((srv) => `
+          <a href="#${srv.slug}" onclick="return navigateMobile(event, '${srv.slug}');"
+             class="block px-3 py-2.5 rounded-lg bg-parchment/80 hover:bg-cream text-left transition-colors">
+            <span class="block text-xs font-medium text-charcoal">${srv.name}</span>
+          </a>
+        `).join('');
+      }
+
+      const menuBtn = document.getElementById('services-menu-btn');
+      const menuWrap = document.getElementById('services-menu-container');
+      const mobileBtn = document.getElementById('mobile-menu-trigger');
+
+      if (menuBtn) {
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const currentlyOpen = !document.getElementById('services-menu-panel').classList.contains('hidden');
+          setDropdownState(!currentlyOpen);
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (menuWrap && !menuWrap.contains(e.target)) {
+          setDropdownState(false);
+        }
+      });
+
+      if (mobileBtn) {
+        mobileBtn.addEventListener('click', () => {
+          const currentlyOpen = !document.getElementById('mobile-nav-drawer').classList.contains('hidden');
+          setMobileDrawerState(!currentlyOpen);
+        });
+      }
+    }
+
+    // =========================================================================
+    // PAGE RENDERERS (#home, #service-1..#service-12, #contact)
+    // =========================================================================
+    function renderHomeHTML() {
+      const h = SITE_CONTENT.home;
+      const firstService = SITE_CONTENT.services[0];
+
+      const cardsHTML = SITE_CONTENT.services.map((srv) => `
+        <article class="service-card bg-surface rounded-2xl border border-borderwarm p-6 flex flex-col justify-between shadow-card hover:border-bronze/70 transition-all">
+          <div>
+            <div class="w-11 h-11 rounded-lg bg-parchment border border-borderwarm text-bronze flex items-center justify-center mb-4">
+              ${srv.icon}
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-charcoal leading-snug mb-2">
+              ${srv.name}
+            </h3>
+            <p class="text-sm text-inkbody leading-relaxed">
+              ${srv.summary}
+            </p>
+          </div>
+
+          <div class="pt-5 mt-5 border-t border-borderwarm">
+            <a href="#${srv.slug}" onclick="return navigateTo(event, '${srv.slug}');"
+               class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-charcoal hover:text-bronze transition-colors">
+              <span>${srv.name}</span>
+              <span class="arrow-glide text-bronze" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </article>
+      `).join('');
+
+      return `
+        <div class="view-animate">
+          <section class="bg-surface border-b border-borderwarm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-20 lg:py-24">
+              <div class="max-w-3xl space-y-6">
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-charcoal leading-[1.06] tracking-tight">
+                  ${h.headline}
+                </h1>
+                <p class="text-base sm:text-lg text-inkbody leading-relaxed max-w-2xl">
+                  ${h.subheadline}
+                </p>
+                <div class="pt-2 flex flex-wrap items-center gap-4">
+                  <a href="#${firstService.slug}" onclick="return navigateTo(event, '${firstService.slug}');"
+                     class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg bg-charcoal text-parchment text-xs uppercase tracking-[0.16em] font-semibold hover:bg-bronze transition-colors">
+                    <span>${h.primaryButtonLabel}</span>
+                    <span aria-hidden="true">&rarr;</span>
+                  </a>
+                  <a href="#contact" onclick="return navigateTo(event, 'contact');"
+                     class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg border border-borderwarm bg-parchment text-charcoal text-xs uppercase tracking-[0.16em] font-semibold hover:border-bronze transition-colors">
+                    <span>${h.secondaryButtonLabel}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="services-grid-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20">
+            <div class="pb-8 mb-10 border-b border-borderwarm">
+              <h2 class="font-serif text-3xl sm:text-4xl font-semibold text-charcoal">
+                ${h.servicesSectionTitle}
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${cardsHTML}
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function renderServicePageHTML(serviceId) {
+      const items = SITE_CONTENT.services;
+      const srv = items.find((item) => item.id === serviceId) || items[0];
+      const prevService = items.find((item) => item.id === srv.id - 1) || null;
+      const nextService = items.find((item) => item.id === srv.id + 1) || null;
+
+      const deliverablesList = srv.deliverables.map((item) => `
+        <li class="flex items-start gap-3 text-sm sm:text-base text-inkbody leading-relaxed">
+          <span class="w-2 h-2 rounded-full bg-bronze mt-2 shrink-0"></span>
+          <span>${item}</span>
+        </li>
+      `).join('');
+
+      const documentsList = srv.documents.map((doc) => `
+        <li class="flex items-start gap-3 text-sm text-inkbody leading-relaxed">
+          <span class="text-bronze font-bold mt-0.5">&check;</span>
+          <span>${doc}</span>
+        </li>
+      `).join('');
+
+      return `
+        <div class="view-animate">
+          <section class="bg-surface border-b border-borderwarm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
+              <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-xs text-muted mb-5">
+                <a href="#home" onclick="return navigateTo(event, 'home');" class="hover:text-bronze font-medium">Home</a>
+                <span>/</span>
+                <span class="text-bronze font-semibold">${srv.name}</span>
+              </nav>
+
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 space-y-4">
+                  <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-parchment border border-borderwarm text-xs font-semibold text-charcoal">
+                    <span class="text-bronze">${srv.icon}</span>
+                    <span>${SITE_CONTENT.firm.name} &bull; ${srv.name}</span>
+                  </div>
+                  <h1 class="font-serif text-3xl sm:text-5xl font-semibold text-charcoal leading-[1.1]">
+                    ${srv.name}
+                  </h1>
+                  <p class="text-base sm:text-lg text-inkbody leading-relaxed max-w-3xl">
+                    ${srv.summary}
+                  </p>
+                </div>
+
+                <div class="lg:col-span-4">
+                  ${srv.illustration}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <div class="lg:col-span-8 space-y-8">
+                <div class="bg-surface rounded-2xl border border-borderwarm p-6 sm:p-8 shadow-card space-y-3">
+                  <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">Overview</h2>
+                  <p class="text-sm sm:text-base text-inkbody leading-relaxed">
+                    ${srv.overview}
+                  </p>
+                </div>
+
+                <div class="bg-surface rounded-2xl border border-borderwarm p-6 sm:p-8 shadow-card space-y-4">
+                  <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">Key Deliverables</h2>
+                  <ul class="space-y-3 pt-1">
+                    ${deliverablesList}
+                  </ul>
+                </div>
+
+                <div class="bg-cream rounded-2xl border border-bronze/35 p-6 sm:p-7 space-y-2">
+                  <p class="text-xs uppercase tracking-[0.2em] text-bronze font-semibold">Applicable Statutory Framework</p>
+                  <p class="text-sm text-inkbody leading-relaxed">
+                    ${srv.statutoryNote}
+                  </p>
+                </div>
+              </div>
+
+              <aside class="lg:col-span-4 space-y-6">
+                <div class="bg-surface rounded-2xl border border-borderwarm p-6 sm:p-7 shadow-card space-y-4">
+                  <h2 class="font-serif text-2xl font-semibold text-charcoal">Required Documents</h2>
+                  <ul class="space-y-3 pt-1">
+                    ${documentsList}
+                  </ul>
+                </div>
+
+                <div class="bg-charcoal text-parchment rounded-2xl p-6 sm:p-7 space-y-4">
+                  <p class="text-[11px] uppercase tracking-[0.2em] text-bronze font-semibold">${SITE_CONTENT.firm.name}</p>
+                  <h3 class="font-serif text-2xl font-semibold text-white">${srv.name}</h3>
+                  <button type="button" onclick="goToContactWithService(${srv.id});"
+                          class="w-full py-3.5 px-5 rounded-lg bg-bronze text-white text-xs uppercase tracking-[0.16em] font-semibold hover:bg-bronzedark transition-colors">
+                    Contact &rarr;
+                  </button>
+                </div>
+              </aside>
+            </div>
+
+            <div class="mt-14 pt-8 border-t border-borderwarm grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                ${prevService ? `
+                  <a href="#${prevService.slug}" onclick="return navigateTo(event, '${prevService.slug}');"
+                     class="group block p-5 rounded-xl bg-surface border border-borderwarm hover:border-bronze transition-all">
+                    <span class="block text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-bronze">&larr; Previous Service</span>
+                    <span class="block font-serif text-xl font-semibold text-charcoal mt-1">${prevService.name}</span>
+                  </a>
+                ` : `
+                  <a href="#home" onclick="return navigateTo(event, 'home');"
+                     class="group block p-5 rounded-xl bg-surface border border-borderwarm hover:border-bronze transition-all">
+                    <span class="block text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-bronze">&larr; Back to Home</span>
+                    <span class="block font-serif text-xl font-semibold text-charcoal mt-1">Home</span>
+                  </a>
+                `}
+              </div>
+
+              <div class="sm:text-right">
+                ${nextService ? `
+                  <a href="#${nextService.slug}" onclick="return navigateTo(event, '${nextService.slug}');"
+                     class="group block p-5 rounded-xl bg-surface border border-borderwarm hover:border-bronze transition-all">
+                    <span class="block text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-bronze">Next Service &rarr;</span>
+                    <span class="block font-serif text-xl font-semibold text-charcoal mt-1">${nextService.name}</span>
+                  </a>
+                ` : `
+                  <a href="#contact" onclick="return navigateTo(event, 'contact');"
+                     class="group block p-5 rounded-xl bg-surface border border-borderwarm hover:border-bronze transition-all">
+                    <span class="block text-[11px] uppercase tracking-[0.18em] text-muted group-hover:text-bronze">Next &rarr;</span>
+                    <span class="block font-serif text-xl font-semibold text-charcoal mt-1">Contact Us</span>
+                  </a>
+                `}
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function renderContactHTML() {
+      const f = SITE_CONTENT.firm;
+      const c = SITE_CONTENT.contact;
+
+      const serviceOptions = SITE_CONTENT.services.map((srv) => `
+        <option value="${srv.id}" ${preselectedServiceId === srv.id ? 'selected' : ''}>
+          ${srv.name}
+        </option>
+      `).join('');
+
+      return `
+        <div class="view-animate">
+          <section class="bg-surface border-b border-borderwarm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-24 text-center">
+              <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-charcoal leading-[1.08] mx-auto">
+                ${c.heading}
+              </h1>
+            </div>
+          </section>
+
+          <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-18">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+              <div class="lg:col-span-5 space-y-6">
+                <div class="bg-surface rounded-2xl border border-borderwarm p-6 sm:p-7 shadow-card space-y-5">
+                  <div>
+                    <p class="font-serif text-2xl font-semibold text-charcoal">${f.name}</p>
+                    <p class="text-sm text-inkbody leading-relaxed mt-1">
+                      ${f.addressLines.join('<br />')}
+                    </p>
+                  </div>
+
+                  <div class="pt-4 border-t border-borderwarm">
+                    <a href="tel:${f.phoneTelHref}" class="text-lg font-semibold text-charcoal hover:text-bronze transition-colors">
+                      ${f.phone}
+                    </a>
+                  </div>
+
+                  <div class="pt-4 border-t border-borderwarm">
+                    <a href="mailto:${f.email}" class="text-lg font-semibold text-charcoal hover:text-bronze transition-colors break-all">
+                      ${f.email}
+                    </a>
+                  </div>
+
+                  <div class="pt-4 border-t border-borderwarm">
+                    <a href="${f.whatsappUrl}" target="_blank" rel="noopener noreferrer"
+                       class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-lg bg-parchment border border-charcoal text-charcoal text-xs uppercase tracking-[0.16em] font-semibold hover:bg-charcoal hover:text-parchment transition-colors">
+                      <span>WhatsApp</span>
+                      <span aria-hidden="true">&rarr;</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lg:col-span-7">
+                <div class="bg-surface rounded-2xl border border-borderwarm p-6 sm:p-9 shadow-card">
+                  <h2 class="font-serif text-3xl font-semibold text-charcoal mb-6">${c.formTitle}</h2>
+
+                  <form id="azmi-contact-form" onsubmit="return submitContactForm(event);" class="space-y-4">
+                    <div>
+                      <label for="contact-service" class="block text-xs uppercase tracking-[0.14em] font-semibold text-charcoal mb-1.5">
+                        Service *
+                      </label>
+                      <select id="contact-service" required
+                              class="w-full px-4 py-3 rounded-lg bg-parchment border border-borderwarm text-sm text-charcoal focus:outline-none focus:border-bronze">
+                        <option value="" disabled ${!preselectedServiceId ? 'selected' : ''}>Choose a service...</option>
+                        ${serviceOptions}
+                      </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label for="contact-name" class="block text-xs uppercase tracking-[0.14em] font-semibold text-charcoal mb-1.5">
+                          Name *
+                        </label>
+                        <input type="text" id="contact-name" required placeholder="Your name"
+                               class="w-full px-4 py-3 rounded-lg bg-parchment border border-borderwarm text-sm text-charcoal focus:outline-none focus:border-bronze" />
+                      </div>
+
+                      <div>
+                        <label for="contact-phone-email" class="block text-xs uppercase tracking-[0.14em] font-semibold text-charcoal mb-1.5">
+                          Phone / Email *
+                        </label>
+                        <input type="text" id="contact-phone-email" required placeholder="7972002617 or name@example.com"
+                               class="w-full px-4 py-3 rounded-lg bg-parchment border border-borderwarm text-sm text-charcoal focus:outline-none focus:border-bronze" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label for="contact-message" class="block text-xs uppercase tracking-[0.14em] font-semibold text-charcoal mb-1.5">
+                        Message *
+                      </label>
+                      <textarea id="contact-message" rows="4" required placeholder="Write your message..."
+                                class="w-full px-4 py-3 rounded-lg bg-parchment border border-borderwarm text-sm text-charcoal focus:outline-none focus:border-bronze"></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                      <button type="submit"
+                              class="px-8 py-3.5 rounded-lg bg-charcoal text-parchment text-xs uppercase tracking-[0.18em] font-semibold hover:bg-bronze transition-colors">
+                        ${c.submitButtonText}
+                      </button>
+                    </div>
+                  </form>
+
+                  <div id="contact-confirmation" class="hidden mt-6 p-5 rounded-xl bg-cream border border-bronze/40 space-y-3" role="status" aria-live="polite">
+                    <p class="text-xs uppercase tracking-[0.18em] text-bronze font-semibold">Sent</p>
+                    <p id="contact-confirmation-text" class="text-sm text-inkbody leading-relaxed"></p>
+                    <div class="flex flex-wrap gap-3 pt-1">
+                      <a id="contact-mailto-action" href="mailto:${f.email}"
+                         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-charcoal text-white text-xs uppercase tracking-[0.14em] font-semibold hover:bg-bronze transition-colors">
+                        Open Email App &rarr;
+                      </a>
+                      <button type="button" onclick="resetContactFormView();"
+                              class="px-4 py-2.5 rounded-lg bg-surface border border-borderwarm text-xs uppercase tracking-[0.14em] font-semibold text-charcoal hover:border-bronze transition-colors">
+                        New Message
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function goToContactWithService(serviceId) {
+      preselectedServiceId = serviceId;
+      showRoute('contact');
+    }
+
+    function submitContactForm(event) {
+      event.preventDefault();
+      try {
+        const f = SITE_CONTENT.firm;
+        const selectEl = document.getElementById('contact-service');
+        const nameEl = document.getElementById('contact-name');
+        const phoneEmailEl = document.getElementById('contact-phone-email');
+        const messageEl = document.getElementById('contact-message');
+
+        const selectedId = parseInt(selectEl.value, 10);
+        const srv = SITE_CONTENT.services.find((item) => item.id === selectedId);
+        const serviceName = srv ? srv.name : 'Service';
+        const senderName = nameEl.value.trim();
+        const senderContact = phoneEmailEl.value.trim();
+        const messageBody = messageEl.value.trim();
+
+        const subject = encodeURIComponent(`${serviceName} — ${senderName}`);
+        const body = encodeURIComponent(
+          `Service: ${serviceName}\nName: ${senderName}\nPhone / Email: ${senderContact}\n\nMessage:\n${messageBody}`
+        );
+
+        document.getElementById('contact-confirmation-text').textContent =
+          `Thank you, ${senderName}. Your message regarding "${serviceName}" (${senderContact}) has been recorded for ${f.name}. You can also launch your email client below or reach ${f.email} / ${f.phone}.`;
+        document.getElementById('contact-mailto-action').href = `mailto:${f.email}?subject=${subject}&body=${body}`;
+
+        document.getElementById('azmi-contact-form').classList.add('hidden');
+        document.getElementById('contact-confirmation').classList.remove('hidden');
+      } catch (err) {
+        // Fallback confirmation if DOM lookup fails
+      }
+      return false;
+    }
+
+    function resetContactFormView() {
+      const form = document.getElementById('azmi-contact-form');
+      const box = document.getElementById('contact-confirmation');
+      if (form) {
+        form.reset();
+        form.classList.remove('hidden');
+      }
+      if (box) {
+        box.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // CLIENT-SIDE ROUTER (#home, #service-1..#service-12, #contact)
+    // =========================================================================
+    let currentFallbackRoute = 'home';
+
+    function setActiveNavLink(activeKey) {
+      const homeLink = document.getElementById('nav-home');
+      const servicesBtn = document.getElementById('services-menu-btn');
+      const contactLink = document.getElementById('nav-contact');
+
+      [homeLink, servicesBtn, contactLink].forEach((el) => {
+        if (!el) return;
+        el.classList.remove('border-bronze', 'text-charcoal');
+        el.classList.add('border-transparent', 'text-inkbody');
+      });
+
+      if (activeKey === 'contact' && contactLink) {
+        contactLink.classList.remove('border-transparent', 'text-inkbody');
+        contactLink.classList.add('border-bronze', 'text-charcoal');
+      } else if (activeKey.startsWith('service-') && servicesBtn) {
+        servicesBtn.classList.remove('border-transparent', 'text-inkbody');
+        servicesBtn.classList.add('border-bronze', 'text-charcoal');
+      } else if (homeLink) {
+        homeLink.classList.remove('border-transparent', 'text-inkbody');
+        homeLink.classList.add('border-bronze', 'text-charcoal');
+      }
+    }
+
+    function renderView(rawRoute, scrollTargetId = null) {
+      const root = document.getElementById('view-root');
+      if (!root) return;
+
+      let route = (rawRoute || currentFallbackRoute || 'home').replace(/^#/, '').trim().toLowerCase();
+      if (!route || route === '/') route = 'home';
+
+      if (route.startsWith('service-')) {
+        const serviceNum = parseInt(route.replace('service-', ''), 10);
+        if (!Number.isNaN(serviceNum) && serviceNum >= 1 && serviceNum <= 12) {
+          const srv = SITE_CONTENT.services.find((s) => s.id === serviceNum);
+          root.innerHTML = renderServicePageHTML(serviceNum);
+          document.title = `${srv.name} — ${SITE_CONTENT.firm.name}`;
+          setActiveNavLink(`service-${serviceNum}`);
+          currentFallbackRoute = `service-${serviceNum}`;
+        } else {
+          route = 'home';
+        }
+      }
+
+      if (route === 'contact') {
+        root.innerHTML = renderContactHTML();
+        document.title = `Contact — ${SITE_CONTENT.firm.name}`;
+        setActiveNavLink('contact');
+        currentFallbackRoute = 'contact';
+      } else if (route === 'home') {
+        root.innerHTML = renderHomeHTML();
+        document.title = `${SITE_CONTENT.firm.name} — Legal Drafting, Title Due Diligence & Documentation`;
+        setActiveNavLink('home');
+        currentFallbackRoute = 'home';
+      }
+
+      if (scrollTargetId) {
+        const targetEl = document.getElementById(scrollTargetId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    function showRoute(route, scrollTargetId = null) {
+      const normalized = (route || 'home').replace(/^#/, '');
+      currentFallbackRoute = normalized;
+      try {
+        window.location.hash = normalized;
+      } catch (e) {
+        // Fallback state rendering still runs even if hash mutation is restricted
+      }
+      renderView(normalized, scrollTargetId);
+    }
+
+    function initWebsite() {
+      populateHeaderAndFooter();
+      const initialHash = window.location.hash && window.location.hash !== '#' ? window.location.hash : 'home';
+      renderView(initialHash);
+    }
+
+    window.addEventListener('hashchange', () => {
+      renderView(window.location.hash || currentFallbackRoute);
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWebsite);
+    } else {
+      initWebsite();
+    }
+  </script>
+</body>
+</html>
